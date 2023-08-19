@@ -13,7 +13,7 @@ export const dataSourceOptions: DataSourceOptions = {
   database: configService.get('POSTGRES_DB'),
   entities: ['dist/domain/**/entities/*{.ts,.js}'],
   migrations: ['dist/db/migrations/*{.ts,.js}'],
-  synchronize: false,
+  synchronize: true,
 };
 
 const dataSource = new DataSource(dataSourceOptions);

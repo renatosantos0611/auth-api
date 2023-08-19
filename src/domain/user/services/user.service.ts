@@ -6,7 +6,7 @@ import { UserRepository } from '../repositories';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(private readonly userRepository: UserRepository) { }
 
   async ValidEmailToRegister(email: string): Promise<boolean> {
     const emailUser = await this.userRepository.findUserByEmail(email);

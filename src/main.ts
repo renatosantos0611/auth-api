@@ -16,7 +16,7 @@ async function bootstrap() {
   app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
   const config = new DocumentBuilder()
-    .setTitle('Blog Api')
+    .setTitle('Auth Api')
     .setVersion('1.0')
     .addBearerAuth(
       { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },

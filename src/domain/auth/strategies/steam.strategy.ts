@@ -37,7 +37,7 @@ export class SteamStrategy extends PassportStrategy(Strategy) {
         email: null,
         authCredencial: profile.id,
         authTipo: AuthTipoEnum.STEAM,
-        iconUrl: profile.photos[0].value || null,
+        iconUrl: profile._json.avatarfull || profile.photos[3].value,
         senha: uuidv4(),
         sobrenome: null,
         telefone: null,
