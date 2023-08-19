@@ -2,21 +2,23 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
-  Get,
   Ip,
   Post,
   Req,
   Res,
   UseGuards,
-  UseInterceptors,
+  UseInterceptors
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
-import { LoginDto, RefreshTokenDto } from '../dtos';
-import { LocalLoginUseCase, RevokeTokenUseCase } from '../usecases';
-import { RefreshTokenUseCase } from '../usecases/refresh-token.usecase';
 import { Response } from 'express';
+import { LoginDto, RefreshTokenDto } from '../dtos';
 import { CookieService } from '../services';
+import {
+  LocalLoginUseCase,
+  RevokeTokenUseCase,
+  RefreshTokenUseCase
+} from '../usecases';
 
 @ApiTags('Auth')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -27,7 +29,7 @@ export class AuthController {
     private readonly refreshTokenUseCase: RefreshTokenUseCase,
     private readonly revokeTokenUseCase: RevokeTokenUseCase,
     private readonly cookieService: CookieService,
-  ) {}
+  ) { }
   @UseGuards(AuthGuard('local'))
   @ApiBody({ type: LoginDto })
   @Post('login')
@@ -74,45 +76,5 @@ export class AuthController {
     const accessToken =
       req.headers?.authorization?.split(' ')[1] || req.cookies.accessToken;
     return this.revokeTokenUseCase.execute({ refreshToken, accessToken }, ip);
-  }
-
-  @Get('google')
-  @UseGuards(AuthGuard('google'))
-  async googleAuth(@Res({ passthrough: true }) res: Response): Promise<void> {}
-
-  @Get('google/callback')
-  @UseGuards(AuthGuard('google'))
-  googleAuthRedirect(@Req() req, @Res({ passthrough: true }) res: Response) {
-    res.cookie(
-      'accessToken',
-      `${req.user.accessToken}`,
-      this.cookieService.getAccessTokenOptions(),
-    );
-    res.cookie(
-      'refreshToken',
-      `${req.user.refreshToken}`,
-      this.cookieService.getRefreshTokenOptions(),
-    );
-    res.redirect('http://localhost:3000/profile');
-  }
-
-  @Get('steam')
-  @UseGuards(AuthGuard('steam'))
-  async steamAuth(@Res({ passthrough: true }) res: Response): Promise<void> {}
-
-  @Get('steam/return')
-  @UseGuards(AuthGuard('steam'))
-  steamAuthRedirect(@Req() req, @Res({ passthrough: true }) res: Response) {
-    res.cookie(
-      'accessToken',
-      `${req.user.accessToken}`,
-      this.cookieService.getAccessTokenOptions(),
-    );
-    res.cookie(
-      'refreshToken',
-      `${req.user.refreshToken}`,
-      this.cookieService.getRefreshTokenOptions(),
-    );
-    res.redirect('http://localhost:3000/profile');
   }
 }

@@ -1,7 +1,7 @@
 version: '3'
 services:
   db:
-    container_name: authTest_postgres
+    container_name: auth_postgres
     image: postgres:12
     ports:
       - 5432:5432
@@ -12,20 +12,8 @@ services:
     volumes:
       - postgresData:/var/lib/postgresql/data
     networks:
-      authTestNetwork:
+      authNetwork:
   
-  pgadmin:
-    container_name: authTest_pgadmin
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: admin
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
-    ports:
-      - "16000:80"
-    networks:
-      authTestNetwork:
-    restart: unless-stopped
   rabbitmq:
     container_name: auth_rabbitmq
     image: rabbitmq:3-management
@@ -33,7 +21,7 @@ services:
       - "5672:5672"
       - "15672:15672"
     networks:
-      authTestNetwork:
+      authNetwork:
     restart: unless-stopped
     volumes:
       - rabbitmqData:/var/lib/rabbitmq
@@ -45,5 +33,5 @@ volumes:
     driver: local
 
 networks:
-  authTestNetwork:
+  authNetwork:
     driver: bridge

@@ -4,7 +4,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from '../user';
-import { AuthController } from './controllers';
+import { AuthController, GoogleController, SteamController } from './controllers';
 import { RefreshTokenEntity } from './entities';
 import { RefreshTokenRepository } from './repositories';
 import { AuthService, CookieService } from './services';
@@ -36,7 +36,11 @@ import {
     TypeOrmModule.forFeature([RefreshTokenEntity]),
     PassportModule,
   ],
-  controllers: [AuthController],
+  controllers: [
+    AuthController,
+    GoogleController,
+    SteamController
+  ],
   providers: [
     JwtStrategy,
     LocalStrategy,
@@ -52,4 +56,4 @@ import {
     RoleGuard,
   ],
 })
-export class AuthModule {}
+export class AuthModule { }
