@@ -8,6 +8,7 @@ import {
     UseGuards,
     UseInterceptors
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
@@ -19,15 +20,18 @@ import { CookieService } from '../services';
 @Controller('auth')
 export class SteamController {
     constructor(
+        private configService: ConfigService,
         private readonly cookieService: CookieService,
     ) { }
 
     @Get('steam-redirect')
     async steamRedirect(@Query('redirectTo') redirectTo: string, @Res() res: Response) {
-        res.cookie(
-            'redirectTo',
-            `${redirectTo || authDefaultRedirect}`
-        );
+
+        if (redirectTo === 'null') {
+            redirectTo = authDefaultRedirect;
+        }
+
+        res.cookie('redirectTo', redirectTo);
         res.redirect('/auth/steam');
     }
 
@@ -49,6 +53,7 @@ export class SteamController {
             this.cookieService.getRefreshTokenOptions(),
         );
         const redirectTo = req.cookies.redirectTo || authDefaultRedirect;
-        res.redirect(`http://localhost:3000/${redirectTo}`);
+        res.clearCookie('redirectTo')
+        res.redirect(`${this.configService.get<string>('API_URL')}${redirectTo}`);
     }
 }
