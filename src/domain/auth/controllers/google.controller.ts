@@ -26,11 +26,6 @@ export class GoogleController {
 
     @Get('google-redirect')
     async googleRedirect(@Query('redirectTo') redirectTo: string, @Res() res: Response) {
-
-        if (redirectTo === 'null') {
-            redirectTo = authDefaultRedirect;
-        }
-
         res.cookie('redirectTo', redirectTo);
         res.redirect('/auth/google');
     }

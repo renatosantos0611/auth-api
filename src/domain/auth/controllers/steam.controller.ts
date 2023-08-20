@@ -26,11 +26,6 @@ export class SteamController {
 
     @Get('steam-redirect')
     async steamRedirect(@Query('redirectTo') redirectTo: string, @Res() res: Response) {
-
-        if (redirectTo === 'null') {
-            redirectTo = authDefaultRedirect;
-        }
-
         res.cookie('redirectTo', redirectTo);
         res.redirect('/auth/steam');
     }
