@@ -14,7 +14,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly userRepository: UserRepository,
     private readonly refreshTokenRepository: RefreshTokenRepository,
-  ) {}
+  ) { }
 
   async generateJwt(payload: any): Promise<string> {
     return this.jwtService.sign(payload);
@@ -79,7 +79,10 @@ export class AuthService {
   async validateUser(email: string, senha: string): Promise<UserEntity> {
     const user = await this.userRepository.findUserByEmailWithSenha(email);
     if (!user) return null;
+
     const isPasswordValid = compareSync(senha, user.senha);
+    delete user.senha;
+
     if (!isPasswordValid) return null;
     return user;
   }
