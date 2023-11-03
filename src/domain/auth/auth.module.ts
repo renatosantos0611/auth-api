@@ -4,16 +4,24 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from '../user';
-import { AuthController, GoogleController, SteamController } from './controllers';
+import {
+  AuthController,
+  GoogleController,
+  SteamController,
+  TwitchController,
+  TwitterController,
+} from './controllers';
 import { RefreshTokenEntity } from './entities';
 import { RefreshTokenRepository } from './repositories';
 import { AuthService, CookieService } from './services';
 import {
-  RoleGuard,
+  GoogleStrategy,
   JwtStrategy,
   LocalStrategy,
-  GoogleStrategy,
+  RoleGuard,
   SteamStrategy,
+  TwitchStrategy,
+  TwitterStrategy,
 } from './strategies';
 import {
   LocalLoginUseCase,
@@ -39,13 +47,17 @@ import {
   controllers: [
     AuthController,
     GoogleController,
-    SteamController
+    SteamController,
+    TwitterController,
+    TwitchController,
   ],
   providers: [
     JwtStrategy,
     LocalStrategy,
     GoogleStrategy,
     SteamStrategy,
+    TwitterStrategy,
+    TwitchStrategy,
     AuthService,
     CookieService,
     LocalLoginUseCase,
@@ -56,4 +68,4 @@ import {
     RoleGuard,
   ],
 })
-export class AuthModule { }
+export class AuthModule {}

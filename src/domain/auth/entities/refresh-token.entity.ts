@@ -1,6 +1,5 @@
 import { AuthTipoEnum } from 'src/domain/user/enums';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { TipoAuthEnum } from '../enums';
 
 @Entity('refresh-token')
 export class RefreshTokenEntity {
@@ -33,13 +32,13 @@ export class RefreshTokenEntity {
   expiresAt: Date;
 
   @Column({ type: 'varchar', nullable: true })
-  createdByIp: String;
+  createdByIp: string;
 
   @Column({ type: 'varchar', nullable: true })
-  revokedByIp: String;
+  revokedByIp: string;
 
   @Column({ type: 'varchar', nullable: true })
-  replacedByToken: String;
+  replacedByToken: string;
 
   @Column({ type: 'varchar', nullable: true })
   revokedAccessToken: string;

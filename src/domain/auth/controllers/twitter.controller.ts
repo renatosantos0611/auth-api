@@ -12,34 +12,33 @@ import { ConfigService } from '@nestjs/config';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
-import { authDefaultRedirect } from '../constants';
 import { CookieService } from '../services';
 
 @ApiTags('Auth')
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('auth')
-export class GoogleController {
+export class TwitterController {
   constructor(
     private configService: ConfigService,
     private readonly cookieService: CookieService,
   ) {}
 
-  @Get('google-redirect')
-  async googleRedirect(
+  @Get('twitter-redirect')
+  async twitterRedirect(
     @Query('redirectTo') redirectTo: string,
     @Res() res: Response,
   ) {
     res.cookie('redirectTo', redirectTo);
-    res.redirect('/auth/google');
+    res.redirect('/auth/twitter');
   }
 
-  @Get('google')
-  @UseGuards(AuthGuard('google'))
-  googleAuth(): void {}
+  @Get('twitter')
+  @UseGuards(AuthGuard('twitter'))
+  twitterAuth(): void {}
 
-  @Get('google/callback')
-  @UseGuards(AuthGuard('google'))
-  googleAuthRedirect(@Req() req, @Res({ passthrough: true }) res: Response) {
+  @Get('twitter/callback')
+  @UseGuards(AuthGuard('twitter'))
+  twitterAuthRedirect(@Req() req, @Res({ passthrough: true }) res: Response) {
     res.cookie(
       'accessToken',
       `${req.user.accessToken}`,
@@ -50,8 +49,8 @@ export class GoogleController {
       `${req.user.refreshToken}`,
       this.cookieService.getRefreshTokenOptions(),
     );
-    const redirectTo = req.cookies.redirectTo || authDefaultRedirect;
+    // const redirectTo = req.cookies?.redirectTo ?? authDefaultRedirect;
     res.clearCookie('redirectTo');
-    res.redirect(`${this.configService.get<string>('API_URL')}/${redirectTo}`);
+    res.redirect(`${this.configService.get<string>('API_URL')}dashboard`);
   }
 }

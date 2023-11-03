@@ -8,4 +8,6 @@ export enum AuthTipoEnum {
   LOCAL = 'local',
   GOOGLE = 'google',
   STEAM = 'steam',
+  TWITTER = 'twitter',
+  TWITCH = 'twitch',
 }

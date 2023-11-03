@@ -27,7 +27,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async authenticate(req: Request, options?: any): Promise<void> {
+  async authenticate(req: Request): Promise<void> {
     const acessToken = req.cookies['accessToken'] as string;
     const refreshToken = req.cookies['refreshToken'] as string;
     const ipAddress = req.ip;

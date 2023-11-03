@@ -7,7 +7,7 @@ import {
   Req,
   Res,
   UseGuards,
-  UseInterceptors
+  UseInterceptors,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
@@ -16,8 +16,8 @@ import { LoginDto, RefreshTokenDto } from '../dtos';
 import { CookieService } from '../services';
 import {
   LocalLoginUseCase,
+  RefreshTokenUseCase,
   RevokeTokenUseCase,
-  RefreshTokenUseCase
 } from '../usecases';
 
 @ApiTags('Auth')
@@ -29,7 +29,7 @@ export class AuthController {
     private readonly refreshTokenUseCase: RefreshTokenUseCase,
     private readonly revokeTokenUseCase: RevokeTokenUseCase,
     private readonly cookieService: CookieService,
-  ) { }
+  ) {}
   @UseGuards(AuthGuard('local'))
   @ApiBody({ type: LoginDto })
   @Post('login')

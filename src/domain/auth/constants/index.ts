@@ -1,1 +1,1 @@
-export * from './auth-redirect.contant'
+export * from './auth-redirect.contant';
