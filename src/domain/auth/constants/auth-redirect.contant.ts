@@ -1,1 +1,1 @@
-export const authDefaultRedirect = 'dashboard' 
+export const authDefaultRedirect = 'dashboard';
